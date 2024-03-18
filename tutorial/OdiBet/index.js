@@ -4,15 +4,6 @@ import cheerio from 'cheerio';
 (async()=>{
 	const browser = await puppeteer.launch({headless:false});
 	const page = await browser.newPage();
-	// await page.setViewport({
-	// 	width:800,
-	// 	height: 1000,
-	// 	isMobile: false,
-	// 	isLandscape: true,
-	// 	hasTouch: false,
-	// 	deviceScaleFactor: 1
-	// });
-    // iqX8V*cBWu$dz
 	
 	const url = 'https://spribe.co/games/aviator'
 	await page.goto(url);
@@ -26,7 +17,8 @@ import cheerio from 'cheerio';
     await eventmodal.evaluate( eventmodal => eventmodal.click() );
 
     const amountpayout = await page?.$('span.amount.font-weight-bold');
-    await amountpayout.evaluate( amountpayout => amountpayout.text() );
+    console.log($('div.game-logo.h-100.ml-1.ml-md-2').text( ))
+    //await amountpayout?.evaluate( amountpayout => amountpayout.text() );
     //const payouts = await $('span.amount.font-weight-bold').text();
     console.log(amountpayout)
     // await new Promise( ( resolve, reject ) =>
