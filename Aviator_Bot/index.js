@@ -38,7 +38,7 @@ async function main(){
 		const [target] = await Promise.all([
 			new Promise(resolve => browser.once('targetcreated', resolve)),
 			 R_fuc() 
-			//link.click({ button: 'middle' }),
+			link.click({ button: 'middle' }),
 		]);
 		/**
 		const target_page = await target.page();
