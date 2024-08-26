@@ -93,13 +93,7 @@ async function main(){
 		}
 
 		console.log('******Waiting*****');
-		/**
-		const newPage = await page.waitForSelector('div.header.h-100.d-flex.justify-content-between.align-items-center')
-
-
-		let html = await newPage.evaluate(() => document.body.innerHTML);
-		console.log(html);
-		*/
+		
 	}catch(err){
 		console.error(err)
 	}
@@ -182,45 +176,6 @@ async function SET_AUTO_CASHOUT_VALUE(iframe){
 		console.log('Element not found within the iframe.');
 	}
 }
-
-async function HANDLE_BUTTON_BET_STATE(iframe){
-	const bet_selector_value = '.btn.btn-success.bet'
-	const cancel_bet_selector_value = '.btn.btn-danger.bet'
-
-	await iframe.waitForSelector(bet_selector_value, cancel_bet_selector_value);     
-	
-	// Locate the specific element within the iframe
-    const BetElementHandle = await iframe.$(bet_selector_value);      
-    const CancelElementHandle = await iframe.$(cancel_bet_selector_value);  
-
-	if (CancelElementHandle){
-		console.log('betting');
-		//return false;
-	}
-	BetElementHandle?.evaluate(event => event.click());
-	console.log('Bet clicked')
-//	return true
-}
-
-
-async function START_BET(iframe){
-	const selector_value = 'body > app-root > app-game > div > div.main-container > div.w-100.h-100 > div > div.game-play > div.bet-controls > app-bet-controls > div > app-bet-control:nth-child(1) > div > div.first-row.auto-game-feature > div.buttons-block > button'
-
-	await iframe.waitForSelector(selector_value);     
-	
-	// Locate the specific element within the iframe
-    const ElementHandle = await iframe.$(selector_value);      
-	
-
-	if (ElementHandle) {
-		// click button to set to auto cashout
-		await ElementHandle?.evaluate(event => event.click());
-		console.log('Bet started');
-	} else {
-		console.log('Element not found within the iframe.');
-	}
-}
-
 
 async function EXTRACT_MY_BETS(iframe){
 	const parent_selector_value = 'body > app-root > app-game > div > div.main-container > div.w-100.h-100 > div > div.info-board.pt-2 > app-bets-widget > div > app-my-bets-tab > div.h-100.scroll-y';
