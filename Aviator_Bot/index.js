@@ -2,7 +2,10 @@ import puppeteer, { Puppeteer} from "puppeteer";
 import cheerio from "cheerio"; // 
 import { select, filter, is, some } from "cheerio-select";
 //import { once } from 'events';
-import moment from 'moment'
+import moment from 'moment';
+import fs from 'fs';
+import path  from 'path';
+
 async function main(){
 	try{
 		// Launch Bot
@@ -67,16 +70,19 @@ async function main(){
 				if ( wallet_amount_after_bet > wallet_amount_before_bet ){
 					cashout = bet_amount_placed * parseFloat(prediction); // bet won
 				}
+				
 				if ( wallet_amount_after_bet === wallet_amount_before_bet ){
-					return; // Do not push into bet history array
+				//	return; // Do not push into bet history array
+					cashout = 0
 				}
+				
 				if ( wallet_amount_after_bet < wallet_amount_before_bet ){
 					cashout = 0; // bet lost
 				}
 				gain = wallet_amount_after_bet - starting_wallet_starting_amount; // profit / loss tracker
 
 				// Push into history array
-				BET_HISTORY_ARRAY.push({
+				const data = {
 					starting_time:		starting_time,
 					time:				moment(Date.now()).format('h:mm:ss'),
 					starting_amount:	starting_wallet_starting_amount,
@@ -88,7 +94,9 @@ async function main(){
 					p_l:				cashout - bet_amount_placed,
 					gain:				gain
 
-				})
+				};
+				BET_HISTORY_ARRAY.push(data)
+				//SAVE_TO_FILE('output.json', JSON.stringify(data));
 				console.table(BET_HISTORY_ARRAY)
 			}
 		}
@@ -104,7 +112,7 @@ async function main(){
 }
 
 async function Launcher(){
-	const browser = await puppeteer.launch({headless:false});
+	const browser = await puppeteer.launch({headless:true});
 	const page = await browser.newPage();
 	return page;
 };
@@ -249,6 +257,31 @@ async function BET_BUTTON_STATE_TRACKER(iframe){
 	} else {
 		throw new Error('Element not found within the iframe.');
 	}
+}
+
+const SAVE_TO_FILE=(file, content)=>{
+	const __dirname = path.resolve();
+	const filePath = path.join(__dirname, file);
+
+	fs.readFile(filePath,function(err,content){
+		if(err) throw err;
+		var parseJson = JSON.parse(content);
+		for (i=0; i <11 ; i++){
+			parseJson.table.push({id:i, square:i*i})
+		}
+		fs.writeFile('data.json',JSON.stringify(parseJson),function(err){
+			if(err) throw err;
+		})
+	})
+
+	// Append data to the file
+    fs.appendFile(filePath, data + '\n', (err) => {
+        if (err) {
+            console.error('Error writing to file', err);
+        } else {
+            console.log('Data saved:', data);
+        }
+    });
 }
 
 main()
