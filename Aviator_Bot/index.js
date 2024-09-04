@@ -241,7 +241,6 @@ async function SET_AUTO_CASHOUT(iframe){
 
 async function SET_AUTO_CASHOUT_VALUE(iframe,prediction){
 	const selector_value = 'body > app-root > app-game > div > div.main-container > div.w-100.h-100 > div > div.game-play > div.bet-controls > app-bet-controls > div > app-bet-control:nth-child(1) > div > div.second-row > div.cashout-block > div.cashout-spinner-wrapper > div > app-spinner > div > div.input.full-width > input'
-	let cashout_value = prediction;
 
 	await iframe.waitForSelector(selector_value);     
 	
@@ -252,9 +251,9 @@ async function SET_AUTO_CASHOUT_VALUE(iframe,prediction){
 		// Use the keyboard method to select all and delete:
 		await iframe.click(selector_value, { clickCount: 3 }); // Triple-click to select all text
 		//await iframe.keyboard.press('Backspace'); // Press backspace to delete selected text
-		await iframe.type(selector_value,cashout_value, { delay: 100 })
+		await iframe.type(selector_value,prediction, { delay: 200})
 
-		console.log('Auto Cashout value entered:',cashout_value);
+		console.log('Prediction value entered:',prediction);
 	} else {
 		console.log('Element not found within the iframe.');
 	}
