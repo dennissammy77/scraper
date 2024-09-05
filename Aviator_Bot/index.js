@@ -159,7 +159,7 @@ async function main(){
 		// RUN after 1.5 sec
 		setInterval(
 			HANDLE_BUTTON_BET_STATE,
-			1500
+			2000
 		);
 
 	}catch(err){
@@ -249,9 +249,9 @@ async function SET_AUTO_CASHOUT_VALUE(iframe,prediction){
 	
 	if (ElementHandle) {
 		// Use the keyboard method to select all and delete:
-		await iframe.click(selector_value, { clickCount: 3 }); // Triple-click to select all text
+		await iframe.click(selector_value, { clickCount: 2 }); // Triple-click to select all text
 		//await iframe.keyboard.press('Backspace'); // Press backspace to delete selected text
-		await iframe.type(selector_value,prediction, { delay: 200})
+		await iframe.type(selector_value,prediction)
 
 		console.log('Prediction value entered:',prediction);
 	} else {
